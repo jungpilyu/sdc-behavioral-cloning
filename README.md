@@ -27,7 +27,7 @@ Rubric Points
 ---
 This write-up explains the points in rubric by providing the description in each step and links to other supporting documents and the images to demonstrate how the code works with examples.
 ### Required File Submission
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 All required files are submitted in the directory containing this write-up.
 The files are
 * `model.py` : a python script which setups the architecture model, generates training data, and trains the model
@@ -37,25 +37,25 @@ The files are
 * this write-up file
 
 ### Quality of Code
-####1. Submission includes functional code
+#### 1. Submission includes functional code
 The code is fully functional to successfully drive the car within the Udacity simulator framework. This can be verified by executing `python drive.py model.h5`. The simulation was recorded in the `video.mp4` file play.
 
-####2. Submission code is usable and readable
+#### 2. Submission code is usable and readable
 The code in `model.py` uses a Python generator which is indispensable for this kind of project. Otherwise, the process for training quickly runs out of memory when just trying to read in all the image data. The task in `model.py` code is structured with functions and commented where needed to render codes readable.
 
 ### Model Architecture and Training Strategy
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 The used model is based on NVIDIA's [End to End Learning for Self-Driving Cars](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) paper. This model is slightly modified to fit the input image size.
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 In order to overcome the side-effect of model-overfitting, Drop-out layers are introduced where needed. All collected data are also split into training and validation data with 8-to-2 ratio. The model is finally tested by running it through the simulator.
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 The model parameters are tuned with *Adam* optimizer with the epoch number of 10.
-####4. Appropriate training data
+#### 4. Appropriate training data
 Training data are collected by driving the car in the center of track. Then, the data are populated in the preprocessing function in `model.py`. The manual recording of track-recovery data is the error-prone manipulation for a clumsy driver Instead, the image preprocessing techniques generates the necessary recovery data.
 For details about how the training data are augmented, see the next section.
 
 ### Architecture and Training Documentation
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 The key part of this project is to secure high quality of training data. The approach to this end is as follows. First, the training data are collected by running simulator. (A training datum consists of both the image and steering angle.)
 Then, several image processing techniques are employed to augment the training data.
 The 20% of training data are reserved for a validation data set and the other data are for a training data set.
@@ -63,7 +63,7 @@ The model based on [NVIDIA's paper](https://images.nvidia.com/content/tegra/auto
 The final step is to run the simulator to see how well the car drives around track.
 At the end of some parameter tuning, the car in the simulator is able to drive around the track without leaving the road in the autonomous mode.
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 The employed model architecture is summarized in the below.
 Since the input image size is (160, 320, 3), the first layer cropped the input image to (60, 180, 3). This layer not only extract the only useful region of interest but also reduces the number of hyper-parameters. The second layer normalizes the data between -1 and 1 for the prevention of over-fitting. 
 From the third layer, the neural network processing begins. The model consists of 5 convolution neural network with the following layer size and flatten layer with decreasing neurons.
@@ -89,7 +89,7 @@ The total number of parameters amounts to 1,426,039.
 |dense_4 (Dense)                 |(None, 10)           |510        |10 neurons                      |
 |dense_5 (Dense)                 |(None, 1)            |11         |1 neurons                       |
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 First of all, the collected training data distribution is evaluated in the blow. As it is seen, almost all data are concentrated around the origin. It is because the car is driven in the center of the track during a training mode driving. This is a good driving habit but these data does not teach the neural network how to recover the car when it approaches to the border of the track.
 
 ![originalhistogram]
